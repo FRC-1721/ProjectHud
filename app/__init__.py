@@ -1,13 +1,13 @@
-import os
-
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
-
+from flask_socketio import SocketIO
 from config import get_config
+import os
 
 db = SQLAlchemy()
 migrate = Migrate()
+socketio = SocketIO()
 
 
 def create_app():
@@ -16,16 +16,16 @@ def create_app():
 
     db.init_app(app)
     migrate.init_app(app, db)
+    socketio.init_app(app)
 
-    from .admin import admin_bp
-    from .dashboard import dashboard_bp
+    from app.admin import admin_bp
+    from app.dashboard import dashboard_bp
 
     app.register_blueprint(admin_bp, url_prefix="/admin")
     app.register_blueprint(dashboard_bp, url_prefix="/dashboard")
 
     with app.app_context():
         if os.getenv("FLASK_ENV") == "production":
-            # Automatically apply migrations in production
             from flask_migrate import upgrade
 
             upgrade()

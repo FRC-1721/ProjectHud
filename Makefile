@@ -13,11 +13,6 @@ build: ## Build container locally
 docker-rm: stop ## Delete container
 	docker-compose rm -f
 
-setup-db:  ## Run this the first time to init the db
-	export FLASK_APP=run.py
-	export FLASK_ENV=development
-	flask init-db
-
 shell: ## Get container shell
 	docker-compose run --entrypoint "/bin/bash" project_hud
 
@@ -33,3 +28,16 @@ dev:  ## Make everything you need to dev in the background
 
 quick: build  ## Make just what you need to quick-test
 	docker-compose -f docker-compose.yml up project_hud
+
+
+# DB STUFF
+setup-db:  ## Run this the first time to init the db
+	export FLASK_APP=run.py
+	export FLASK_ENV=development
+	flask init-db
+
+migrate-db:  ## Perform migration
+	flask db migrate -m "Initial migration."
+
+upgrade-db:  ## Upgrade DB manually(?)
+	flask db upgrade

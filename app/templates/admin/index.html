@@ -2,9 +2,19 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Admin Page</title>
+  <title>Admin Dashboard</title>
 </head>
 <body>
-  <h1>Welcome to the Admin Page</h1>
+  <h1>Admin Dashboard</h1>
+  <a href="{{ url_for('admin.add_project') }}">Add New Project</a>
+  <ul>
+    {% for project in projects %}
+      <li>
+        {{ project.name }}
+        <a href="{{ url_for('admin.add_note', project_id=project.id) }}">Add Note</a>
+        <a href="{{ url_for('admin.add_task', project_id=project.id) }}">Add Task</a>
+      </li>
+    {% endfor %}
+  </ul>
 </body>
 </html>

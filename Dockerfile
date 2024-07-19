@@ -1,4 +1,4 @@
-FROM python:3.10-slim
+FROM python:3.12-slim
 
 # Authors
 LABEL authors="31870999+KenwoodFox@users.noreply.github.com"

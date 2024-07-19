@@ -18,7 +18,7 @@ class DevelopmentConfig(Config):
 
 class ProductionConfig(Config):
     SQLALCHEMY_DATABASE_URI = os.getenv(
-        "DATABASE_URL", "postgresql://postgres:postgres@localhost/project_hud_db"
+        "DATABASE_URL", "postgresql://postgres:postgres@db/project_hud_db"
     )
 
 

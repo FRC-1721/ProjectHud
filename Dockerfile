@@ -22,27 +22,23 @@ RUN pip install --upgrade pip --no-cache-dir
 WORKDIR ${HOME}
 
 # Add any packages we need
-RUN apt update && apt install python-dev-is-python3 -y
+# RUN apt update && apt install python-dev-is-python3 -y
 
-# Copy in all requirements
-ADD requirements requirements/
+# Copy the Pipfile and Pipfile.lock into the container at /app
+COPY Pipfile Pipfile.lock /app/
 
-# Install normal reqs
-RUN pip install -r requirements/requirements.txt --no-cache-dir
-# Install testing reqs
-RUN pip install -r requirements/test_requirements.txt --no-cache-dir
+# Install any needed packages specified in Pipfile
+RUN pip install pipenv && pipenv install --deploy --ignore-pipfile
 
 # Copy in everything else
 ADD . ${HOME}
-# Add /bin to path
-ENV PATH $PATH:${HOME}/bin
 
-# Install our app in edit mode using pip
-RUN pip install -e ${HOME} --no-cache-dir
+# Make port 5000 available to the world outside this container
+EXPOSE 5000
 
-# Drop root and change ownership of /app to app:app
-RUN chown -R ${USER_ID}:${GROUP_ID} ${HOME}
-USER ${USER_ID}
+# Define environment variable
+ENV FLASK_APP=run.py
+ENV FLASK_ENV=production
 
-# Run the entrypoint bin
-ENTRYPOINT ["entrypoint"]
+# Run the app when the container launches
+CMD ["pipenv", "run", "gunicorn", "--bind", "0.0.0.0:5000", "run:app", "--worker-class", "eventlet", "--workers", "1", "--preload"]

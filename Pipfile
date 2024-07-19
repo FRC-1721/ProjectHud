@@ -9,6 +9,9 @@ flask-sqlalchemy = "*"
 flask-migrate = "*"
 psycopg2-binary = "*"
 flask-socketio = "*"
+eventlet = "*"
+gunicorn = "*"
+python-dotenv = "*"
 
 [dev-packages]
 

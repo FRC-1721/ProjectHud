@@ -1,0 +1,53 @@
+services:
+  db:
+    image: postgres:10.5
+    restart: "always"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=project_hud_db
+    healthcheck:
+      test:
+        ["CMD", "pg_isready", "-q", "-d", "project_hud_db", "-U", "postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    logging:
+      options:
+        max-size: 10m
+        max-file: "3"
+    ports:
+      - "5438:5432"
+    volumes:
+      - /opt/project_hud/postgres:/var/lib/postgresql/data
+
+  # pgadmin:
+  #   image: dpage/pgadmin4
+  #   container_name: pgadmin4_container
+  #   restart: no
+  #   ports:
+  #     - "8888:80"
+  #   environment:
+  #     PGADMIN_DEFAULT_EMAIL: kenwood364@gmail.com
+  #     PGADMIN_DEFAULT_PASSWORD: iamnotacrook
+  #   volumes:
+  #     - /opt/project_hud/pgadmin:/var/lib/pgadmin
+
+  watchtower:
+    image: containrrr/watchtower
+    restart: "always"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /root/.docker/config.json:/config.json
+    command: --interval 30
+
+  project_hud:
+    image: ghcr.io/frc-1721/project_hud-bot:feat-builds
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "5000:5000"
+    environment:
+      TZ: America/New_York
+    restart: "always"

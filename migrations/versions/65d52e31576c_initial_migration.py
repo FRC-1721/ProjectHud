@@ -1,8 +1,8 @@
-"""Revert db to stock
+"""Initial migration
 
-Revision ID: 252b14a16837
-Revises: 69dde7217528
-Create Date: 2024-07-19 13:01:03.413846
+Revision ID: 65d52e31576c
+Revises: 
+Create Date: 2024-07-19 14:23:41.925886
 
 """
 from alembic import op
@@ -10,8 +10,8 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '252b14a16837'
-down_revision = '69dde7217528'
+revision = '65d52e31576c'
+down_revision = None
 branch_labels = None
 depends_on = None
 

@@ -1,3 +1,6 @@
+import os
+import logging
+
 from flask import Blueprint, render_template
 from app.models import Project, Note, Task
 from app import socketio
@@ -10,6 +13,12 @@ dashboard_bp = Blueprint("dashboard", __name__, template_folder="templates")
 def dashboard_index():
     projects = Project.query.all()
     return render_template("dashboard/index.html", projects=projects)
+
+
+@socketio.on("get_git_hash")
+def handle_git_hash_request():
+    logging.warn(f"Sending {os.getenv('GIT_HASH')}")
+    emit("git_hash", {"git_hash": os.getenv("GIT_HASH")})
 
 
 @socketio.on("connect")

@@ -85,7 +85,7 @@ jobs:
           context: .
           push: true
           build-args: |
-            GIT_COMMIT=${{ env.BUILD_HASH }}
+            GIT_HASH=${{ env.BUILD_HASH }}
             DEBUG=False
           tags: ${{ env.CUSTOM_TAG }}
           labels: ${{ steps.meta.outputs.labels }}

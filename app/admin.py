@@ -1,5 +1,6 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from .models import db, Project, Note, Task
+from flask_socketio import emit
 
 admin_bp = Blueprint("admin", __name__, template_folder="templates")
 
@@ -18,6 +19,10 @@ def add_project():
         new_project = Project(name=name, description=description)
         db.session.add(new_project)
         db.session.commit()
+
+        # Emit event to notify all connected clients
+        emit("project_updated", {"project_id": new_project.id})
+
         return redirect(url_for("admin.admin_index"))
     return render_template("admin/add_project.html")
 

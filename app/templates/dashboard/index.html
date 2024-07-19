@@ -1,6 +1,8 @@
 <!doctype html>
 <html lang="en">
 
+
+
 <head>
   <meta charset="UTF-8">
   <title>Dashboard</title>
@@ -15,6 +17,38 @@
       padding: 10px;
       border: 1px solid #ddd;
       margin: 10px;
+    }
+
+    body {
+      background-color: black;
+      color: white;
+    }
+
+    .row {
+      padding: 10px;
+      margin: 5px;
+      border-radius: 5px;
+      color: white;
+      font-size: 1.2em;
+    }
+
+    .critical {
+      background-color: red;
+      animation: flash 1s infinite;
+    }
+
+    @keyframes flash {
+      0% {
+        background-color: red;
+      }
+
+      50% {
+        background-color: darkred;
+      }
+
+      100% {
+        background-color: red;
+      }
     }
   </style>
 </head>
@@ -42,6 +76,13 @@
   </div>
   <script>
     const socket = io();
+    var currentGitHash = "";
+
+    socket.on('connect', function () {
+      // Request the current Git hash from the server when we connect
+      socket.emit('get_git_hash');
+    });
+
     socket.on('message', function (data) {
       console.log(data);
     });
@@ -50,6 +91,10 @@
       socket.emit('update', { project_id: project_id });
     }
 
+    /* Update
+     *
+     * Run when we get a update
+     */
     socket.on('update', function (data) {
       const project_id = data.project_id;
       const notesList = document.getElementById(`notes-${project_id}`);
@@ -70,6 +115,44 @@
       });
     });
 
+    /* Project updated
+     *
+     * Run when we get a project_updated
+     */
+    socket.on('project_updated', function (data) {
+      // Code to update the dashboard
+      fetchProjects();
+    });
+
+    function fetchProjects() {
+      fetch('/api/projects')
+        .then(response => response.json())
+        .then(data => {
+          // Code to update the dashboard with new project data
+          updateDashboard(data);
+        });
+    }
+
+    function updateDashboard(projects) {
+      // Clear and re-render the dashboard with the updated projects
+    }
+
+    /* Check if git hash has changed!
+     *
+     */
+    socket.on('git_hash', function (data) {
+      if (currentGitHash == "") {
+        currentGitHash = data["git_hash"];
+      };
+
+      console.log("comparing hash %s with %s", currentGitHash, data["git_hash"]);
+
+      if (currentGitHash !== data["git_hash"]) {
+        // Refresh the page if hashes don't match
+        location.reload();
+      }
+    });
+
     // Optionally, poll for updates every X seconds
     setInterval(() => {
       document.querySelectorAll('.column').forEach(col => {
@@ -77,7 +160,37 @@
         updateProject(project_id);
       });
     }, 5);  // Adjust the interval as needed
+
+
+    // Second script for colors
+    function getRandomColor() {
+      var letters = '0123456789ABCDEF';
+      var color = '#';
+      for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+      }
+      return color;
+    }
+
+    function updateDashboard(projects) {
+      var container = document.getElementById('dashboard-container');
+      container.innerHTML = '';
+
+      projects.forEach(function (project) {
+        var row = document.createElement('div');
+        row.className = 'row';
+        row.style.backgroundColor = getRandomColor();
+
+        if (project.critical) {
+          row.classList.add('critical');
+        }
+
+        row.innerText = project.name;
+        container.appendChild(row);
+      });
+    }
   </script>
+
 </body>
 
 </html>

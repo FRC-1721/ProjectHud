@@ -24,7 +24,7 @@ body {
 
 .progress-bar {
   background: #555;
-  height: 40px;
+  height: 60px;
   border: 1px solid #777;
   position: relative;
   overflow: hidden;
@@ -35,13 +35,17 @@ body {
   height: 100%;
   position: relative;
   text-align: center;
-  line-height: 40px;
+  line-height: 60px;
 }
 
 .milestone-text {
   color: #fff;
-  font-size: 14px;
+  font-size: 24px;
+  font-weight: bold;
   text-shadow: 1px 1px 2px #000;
+  display: block;
+  width: 100%;
+  text-align: center;
 }
 
 .milestone-markers {
@@ -96,19 +100,37 @@ body {
 }
 
 .card {
+  display: flex;
+  align-items: center;
   background: #333;
   border: 1px solid #555;
   padding: 5px;
   border-radius: 4px;
   font-size: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
+  gap: 10px;
+  height: 60px;
 }
 
 .card-number {
+  background: #ffa500;
+  color: #222;
   font-weight: bold;
-  color: #ffa500;
+  font-size: 30px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 100%;
+}
+
+.card-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 2px;
+  text-align: left;
 }
 
 .card-title {
@@ -126,4 +148,5 @@ body {
   font-size: 10px;
   color: #4caf50;
   text-align: right;
+  align-self: flex-end;
 }

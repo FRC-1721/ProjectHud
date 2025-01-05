@@ -7,6 +7,13 @@ body {
   color: #fff;
 }
 
+.repo-name {
+  font-size: 0.8em;
+  color: #888;
+  margin-top: 5px;
+  text-align: center;
+}
+
 /* Milestone Progress Bars */
 #milestones {
   width: 100%;
@@ -20,6 +27,12 @@ body {
   margin: 10px auto;
   width: 90%;
   position: relative;
+}
+
+.milestone-subtitle {
+  font-size: 0.9em;
+  color: #777;
+  margin: 5px 0;
 }
 
 .progress-bar {
@@ -80,13 +93,13 @@ body {
   border: 1px solid #555;
   padding: 10px;
   border-radius: 4px;
-  overflow-y: auto;
-  max-height: 60vh;
+  overflow-y: hidden;
+  max-height: 90vh;
 }
 
 .stat-box h2 {
   margin: 0 0 10px;
-  font-size: 18px;
+  font-size: 22px;
   border-bottom: 1px solid #666;
   padding-bottom: 5px;
   text-align: left;
@@ -97,6 +110,7 @@ body {
   display: flex;
   flex-direction: column;
   gap: 5px;
+  height: 100%;
 }
 
 .card {
@@ -110,20 +124,6 @@ body {
   gap: 10px;
   height: 60px;
 }
-
-.card-number {
-  background: #ffa500;
-  color: #222;
-  font-weight: bold;
-  font-size: 30px;
-  text-align: center;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 60px;
-  height: 100%;
-}
-
 .card-content {
   flex: 1;
   display: flex;
@@ -149,4 +149,36 @@ body {
   color: #4caf50;
   text-align: right;
   align-self: flex-end;
+}
+
+/* Card number */
+.number {
+  font-size: 3em;
+  font-weight: bold;
+  text-align: center;
+  position: relative;
+  background: orange; /* Orange background */
+  color: #222;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 110px;
+  height: 100%;
+}
+
+/* Override for when displaying repo name inside the card number */
+.number .repo-name {
+  font-weight: normal;
+  position: absolute;
+  bottom: 5px; /* Adjust for positioning */
+  text-align: center;
+  width: 100%;
+  color: rgba(255, 255, 255, 0.8); /* Slightly lighter text for contrast */
+  white-space: nowrap; /* Prevent wrapping */
+  overflow: hidden; /* Prevent text spilling */
+  text-overflow: ellipsis; /* Add ellipsis if too long */
+  font-size: min(
+    0.3em,
+    4vw
+  ); /* Dynamically scale font-size based on viewport width */
 }

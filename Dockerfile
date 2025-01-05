@@ -1,48 +1,26 @@
-FROM python:3.12-slim
+# Use the official Python slim image as the base image
+FROM python:3.10-slim
 
-# Authors
-LABEL authors="31870999+KenwoodFox@users.noreply.github.com"
+# Set the working directory inside the container
+WORKDIR /app
 
-# Set the name of our app
-ARG APP_NAME=project-hud
-ENV APP_NAME=${APP_NAME}
+# Copy requirements.txt and install dependencies globally
+COPY requirements.txt .
+RUN pip install --upgrade pip && pip install -r requirements.txt
 
-# Get the current git version
+# Copy the app code to the container
+COPY . .
+
+# Expose port 5000 for the Flask app
+EXPOSE 5000
+
+# Bake the git commit into the env
 ARG GIT_COMMIT
 ENV GIT_COMMIT=$GIT_COMMIT
 
-# App home
-ARG HOME="/app"
-ENV HOME=${HOME}
+# Healthcheck to ensure the service is up
+# HEALTHCHECK --interval=30s --timeout=10s --retries=3 \
+#     CMD curl --fail http://localhost:5000/ || exit 1
 
-# Upgrade pip
-RUN pip install --upgrade pip --no-cache-dir
-
-# Set workdir
-WORKDIR ${HOME}
-
-# Add any packages we need
-RUN apt update && apt install python-dev-is-python3 -y
-
-# Copy in all requirements
-ADD requirements requirements/
-
-# Install normal reqs
-RUN pip install -r requirements/requirements.txt --no-cache-dir
-# Install testing reqs
-RUN pip install -r requirements/test_requirements.txt --no-cache-dir
-
-# Copy in everything else
-ADD . ${HOME}
-# Add /bin to path
-ENV PATH $PATH:${HOME}/bin
-
-# Install our app in edit mode using pip
-RUN pip install -e ${HOME} --no-cache-dir
-
-# Drop root and change ownership of /app to app:app
-RUN chown -R ${USER_ID}:${GROUP_ID} ${HOME}
-USER ${USER_ID}
-
-# Run the entrypoint bin
-ENTRYPOINT ["entrypoint"]
+# Run Gunicorn without virtual environment
+ENTRYPOINT ["gunicorn", "-b", "0.0.0.0:5000", "-w", "2", "-t", "120", "wsgi:app"]

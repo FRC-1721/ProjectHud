@@ -10,6 +10,8 @@ psycopg2-binary = "*"
 flask-socketio = "*"
 flask = "*"
 requests = "*"
+pygithub = "*"
+python-dotenv = "*"
 
 [dev-packages]
 

@@ -59,6 +59,8 @@ body {
   display: block;
   width: 100%;
   text-align: center;
+  white-space: nowrap;
+  overflow: visible;
 }
 
 .milestone-markers {
@@ -170,15 +172,12 @@ body {
 .number .repo-name {
   font-weight: normal;
   position: absolute;
-  bottom: 5px; /* Adjust for positioning */
+  bottom: 5px;
   text-align: center;
   width: 100%;
   color: rgba(255, 255, 255, 0.8); /* Slightly lighter text for contrast */
   white-space: nowrap; /* Prevent wrapping */
   overflow: hidden; /* Prevent text spilling */
-  text-overflow: ellipsis; /* Add ellipsis if too long */
-  font-size: min(
-    0.3em,
-    4vw
-  ); /* Dynamically scale font-size based on viewport width */
+  text-overflow: ellipsis;
+  font-size: min(0.3em, 4vw);
 }

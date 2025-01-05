@@ -1,0 +1,9 @@
+# Web
+flask
+requests
+
+# Backend
+PyGithub
+
+# Server
+gunicorn

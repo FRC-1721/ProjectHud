@@ -1,47 +1,12 @@
 services:
-  db:
-    image: postgres:10.5
-    restart: "no"
-    environment:
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-      - POSTGRES_DB=project_hud_db
-    healthcheck:
-      test:
-        ["CMD", "pg_isready", "-q", "-d", "project_hud_db", "-U", "postgres"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-    logging:
-      options:
-        max-size: 10m
-        max-file: "3"
-    ports:
-      - "5438:5432"
-    volumes:
-      - .db/postgres:/var/lib/postgresql/data
-
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: pgadmin4_container
-    restart: no
-    ports:
-      - "8888:80"
-    environment:
-      PGADMIN_DEFAULT_EMAIL: kenwood364@gmail.com
-      PGADMIN_DEFAULT_PASSWORD: iamnotacrook
-    volumes:
-      - .db/pgadmin:/var/lib/pgadmin
-
   project_hud:
     image: project_hud:$TAG
-    depends_on:
-      db:
-        condition: service_healthy
     build:
       context: .
       dockerfile: Dockerfile
     environment:
       TZ: America/New_York
+      GITHUB_TOKEN:
+      GITHUB_REPOS:
     restart: "no"
     command: "true"

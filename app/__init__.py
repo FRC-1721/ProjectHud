@@ -30,6 +30,7 @@ def index():
             milestones_data.append(
                 {
                     "name": milestone.title,
+                    "repo_name": repo_name,
                     "progress": (
                         (
                             milestone.closed_issues
@@ -51,6 +52,7 @@ def index():
             issues_data.append(
                 {
                     "number": issue.number,
+                    "repo_name": repo_name.split("/")[1],
                     "title": issue.title,
                     "user": issue.user.login,
                     "additions": 0,  # GitHub API doesn't directly provide these
@@ -65,6 +67,7 @@ def index():
             pr_data.append(
                 {
                     "number": pr.number,
+                    "repo_name": repo_name.split("/")[1],
                     "title": pr.title,
                     "user": pr.user.login,
                     "additions": pr_details.additions,

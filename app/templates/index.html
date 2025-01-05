@@ -15,6 +15,7 @@
     <section id="milestones">
         {% for milestone in milestones %}
         <div class="milestone">
+            <div class="milestone-subtitle"><span class="repo-name">{{ milestone.repo_name }}</span></div>
             <div class="progress-bar">
                 <div class="progress" style="width: {{ milestone.progress }}%;">
                     <span class="milestone-text">{{ milestone.name }} ({{ milestone.progress }}%)</span>
@@ -36,7 +37,10 @@
             <div class="card-container">
                 {% for issue in issues %}
                 <div class="card">
-                    <div class="card-number">#{{ issue.number }}</div>
+                    <div class="number">
+                        <div class="card-number">#{{ issue.number }}</div>
+                        <div class="repo-name">{{ issue.repo_name }}</div>
+                    </div>
                     <div class="card-content">
                         <span class="card-title">{{ issue.title }}</span>
                         <span class="card-meta">Opened by {{ issue.user }}</span>
@@ -52,7 +56,11 @@
             <div class="card-container">
                 {% for pr in pull_requests %}
                 <div class="card">
-                    <div class="card-number">#{{ pr.number }}</div>
+                    <div class="number">
+                        <div class="card-number">#{{ pr.number }}</div>
+                        <div class="repo-name">{{ pr.repo_name }}</div>
+                    </div>
+
                     <div class="card-content">
                         <span class="card-title">{{ pr.title }}</span>
                         <span class="card-meta">Opened by {{ pr.user }}</span>

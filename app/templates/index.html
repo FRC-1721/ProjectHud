@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GitHub Kiosk Dashboard</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+    <!-- Milestone Progress Bars -->
+    <section id="milestones">
+        {% for milestone in milestones %}
+        <div class="milestone">
+            <div class="progress-bar">
+                <div class="progress" style="width: {{ milestone.progress }}%;">
+                    <span class="milestone-text">{{ milestone.name }} ({{ milestone.progress }}%)</span>
+                    <div class="milestone-markers">
+                        {% for i in range(milestone.issues) %}
+                        <div class="marker" style="left: {{ (i + 1) * (100 / milestone.issues) }}%;"></div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </section>
+
+    <!-- Issues and Pull Requests -->
+    <section id="stats">
+        <div class="stat-box" id="issues">
+            <h2>Issues ({{ issues_count }})</h2>
+            <div class="card-container">
+                {% for issue in issues %}
+                <div class="card">
+                    <div class="card-number">#{{ issue.number }}</div>
+                    <div class="card-content">
+                        <span class="card-title">{{ issue.title }}</span>
+                        <span class="card-meta">Opened by {{ issue.user }}</span>
+                        <span class="card-changes">+{{ issue.additions }} / -{{ issue.deletions }}</span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="stat-box" id="pull-requests">
+            <h2>Pull Requests ({{ pull_requests_count }})</h2>
+            <div class="card-container">
+                {% for pr in pull_requests %}
+                <div class="card">
+                    <div class="card-number">#{{ pr.number }}</div>
+                    <div class="card-content">
+                        <span class="card-title">{{ pr.title }}</span>
+                        <span class="card-meta">Opened by {{ pr.user }}</span>
+                        <span class="card-changes">+{{ pr.additions }} / -{{ pr.deletions }}</span>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+</body>
+
+</html>

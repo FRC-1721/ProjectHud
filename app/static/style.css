@@ -1,0 +1,129 @@
+/* General Page Styling */
+body {
+  font-family: "Courier New", Courier, monospace;
+  margin: 0;
+  padding: 0;
+  background: #222;
+  color: #fff;
+}
+
+/* Milestone Progress Bars */
+#milestones {
+  width: 100%;
+  margin: 0;
+  padding: 10px 0;
+  background: #333;
+  border-bottom: 2px solid #444;
+}
+
+.milestone {
+  margin: 10px auto;
+  width: 90%;
+  position: relative;
+}
+
+.progress-bar {
+  background: #555;
+  height: 40px;
+  border: 1px solid #777;
+  position: relative;
+  overflow: hidden;
+}
+
+.progress {
+  background: #28a745;
+  height: 100%;
+  position: relative;
+  text-align: center;
+  line-height: 40px;
+}
+
+.milestone-text {
+  color: #fff;
+  font-size: 14px;
+  text-shadow: 1px 1px 2px #000;
+}
+
+.milestone-markers {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.marker {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #fff;
+  opacity: 0.6;
+}
+
+/* Stats Section (Issues & PRs) */
+#stats {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  gap: 5px;
+}
+
+.stat-box {
+  width: 49%;
+  background: #444;
+  border: 1px solid #555;
+  padding: 10px;
+  border-radius: 4px;
+  overflow-y: auto;
+  max-height: 60vh;
+}
+
+.stat-box h2 {
+  margin: 0 0 10px;
+  font-size: 18px;
+  border-bottom: 1px solid #666;
+  padding-bottom: 5px;
+  text-align: left;
+}
+
+/* Card Styling (Issues & PRs Details) */
+.card-container {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.card {
+  background: #333;
+  border: 1px solid #555;
+  padding: 5px;
+  border-radius: 4px;
+  font-size: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.card-number {
+  font-weight: bold;
+  color: #ffa500;
+}
+
+.card-title {
+  font-size: 14px;
+  font-weight: bold;
+  color: #fff;
+}
+
+.card-meta {
+  font-size: 10px;
+  color: #aaa;
+}
+
+.card-changes {
+  font-size: 10px;
+  color: #4caf50;
+  text-align: right;
+}

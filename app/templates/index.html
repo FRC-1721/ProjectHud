@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GitHub Kiosk Dashboard</title>
+    <title>ProjectHUD</title>
     <link rel="stylesheet" href="/static/style.css">
     <script src="/static/scripts/autorefresh.js"></script>
 </head>
@@ -52,7 +52,7 @@
                             <span class="card-meta">Opened by {{ issue.user }}</span>
                         </div>
                         {% if issue.assignees %}
-                        <div class="issue-assignee">
+                        <div class="card-assignee">
                             {% for assignee in issue.assignees %}
                             <div class="assignee-name">{{ assignee }}</div>
                             {% endfor %}
@@ -83,6 +83,13 @@
                         <div class="card-content">
                             <span class="card-title">{{ pr.title }}</span>
                             <span class="card-meta">Opened by {{ pr.user }}</span>
+                            {% if pr.assignees %}
+                            <div class="card-assignee">
+                                {% for assignee in pr.assignees %}
+                                <div class="assignee-name">{{ assignee }}</div>
+                                {% endfor %}
+                            </div>
+                            {% endif %}
                         </div>
                         <div class="card-changes">
                             <span class="changes-additions">+{{ pr.additions }}</span>

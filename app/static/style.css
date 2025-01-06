@@ -193,7 +193,7 @@ body {
 }
 
 /* Assignee Styling */
-.issue-assignee {
+.card-assignee {
   display: flex;
   flex-wrap: wrap;
   gap: 5px;

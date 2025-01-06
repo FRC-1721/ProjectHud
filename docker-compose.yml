@@ -8,5 +8,6 @@ services:
       TZ: America/New_York
       GITHUB_TOKEN:
       GITHUB_REPOS:
+      USERNAME_MAP:
     restart: "no"
     command: "true"

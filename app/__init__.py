@@ -9,6 +9,14 @@ from github import Github
 
 app = Flask(__name__)
 
+# Parse USERNAME_MAP from the environment
+USERNAME_MAP = os.getenv("USERNAME_MAP", "")
+USERNAME_MAPPING = {
+    pair.split(":")[0]: pair.split(":")[1]
+    for pair in USERNAME_MAP.split(",")
+    if ":" in pair
+}
+
 # Initialize GitHub API
 GITHUB_TOKEN = os.getenv("GITHUB_TOKEN")
 GITHUB_REPOS = os.getenv("GITHUB_REPOS").split(",")
@@ -26,6 +34,11 @@ latest_data = {
     "issues_count": 0,
     "pull_requests_count": 0,
 }
+
+
+def getMappedUsername(username: str) -> str:
+    """Return the mapped username if it exists, otherwise return the original."""
+    return USERNAME_MAPPING.get(username, f'"{username}"')
 
 
 # Background task to update GitHub data every 90 seconds
@@ -74,7 +87,10 @@ def fetch_github_data():
                         "title": issue.title,
                         "user": issue.user.login,
                         "assignees": (
-                            [assignee.login for assignee in issue.assignees]
+                            [
+                                getMappedUsername(assignee.login)
+                                for assignee in issue.assignees
+                            ]
                             if issue.assignees
                             else []
                         ),
@@ -95,6 +111,14 @@ def fetch_github_data():
                         "repo_name": repo_name.split("/")[1],
                         "title": pr.title,
                         "user": pr.user.login,
+                        "assignees": (
+                            [
+                                getMappedUsername(assignee.login)
+                                for assignee in pr.assignees
+                            ]
+                            if pr.assignees
+                            else []
+                        ),
                         "additions": pr_details.additions,
                         "deletions": pr_details.deletions,
                     }
@@ -111,7 +135,7 @@ def fetch_github_data():
         app.logger.info(
             f"GitHub data updated successfully, {len(issues_data)} issues and {len(pr_data)} pull requests."
         )
-        time.sleep(90)  # Wait 90 seconds before refreshing
+        time.sleep(60)  # Wait 60 seconds before refreshing
 
 
 # Start background thread for data fetching
@@ -122,13 +146,21 @@ updater_thread.start()
 
 @app.route("/")
 def index():
+    sorted_issues = sorted(
+        latest_data["issues"], key=lambda x: x["number"], reverse=True
+    )
+
+    sorted_pull_requests = sorted(
+        latest_data["pull_requests"], key=lambda x: x["number"], reverse=True
+    )
+
     return render_template(
         "index.html",
         milestones=latest_data["milestones"],
-        issues=latest_data["issues"],
-        issues_count=latest_data["issues_count"],
-        pull_requests=latest_data["pull_requests"],
-        pull_requests_count=latest_data["pull_requests_count"],
+        issues=sorted_issues,
+        issues_count=len(sorted_issues),
+        pull_requests=sorted_pull_requests,
+        pull_requests_count=len(sorted_pull_requests),
     )
 
 

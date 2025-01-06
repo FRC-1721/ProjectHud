@@ -27,5 +27,6 @@ services:
       TZ: America/New_York
       GITHUB_TOKEN: YOUR_TOKEN
       GITHUB_REPOS: YOUR,REPOS
+      USERNAME_MAP: username:realname,
 ```
 

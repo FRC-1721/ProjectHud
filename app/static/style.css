@@ -59,9 +59,15 @@ body {
 }
 
 .milestone-text {
+  color: #fff;
   font-size: 24px;
+  font-weight: bold;
   text-shadow: 1px 1px 2px #000;
+  display: block;
+  width: 100%;
   text-align: center;
+  white-space: nowrap;
+  overflow: visible;
 }
 
 /* ========================= */

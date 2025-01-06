@@ -1,4 +1,7 @@
-/* General Page Styling */
+/* ========================= */
+/* General Page Styling      */
+/* ========================= */
+
 body {
   font-family: "Courier New", Courier, monospace;
   margin: 0;
@@ -7,6 +10,7 @@ body {
   color: #fff;
 }
 
+/* Repo Name (General Use) */
 .repo-name {
   font-size: 0.8em;
   color: #888;
@@ -14,7 +18,10 @@ body {
   text-align: center;
 }
 
-/* Milestone Progress Bars */
+/* ========================= */
+/* Milestone Progress Bars   */
+/* ========================= */
+
 #milestones {
   width: 100%;
   margin: 0;
@@ -39,49 +46,28 @@ body {
   background: #555;
   height: 60px;
   border: 1px solid #777;
-  position: relative;
   overflow: hidden;
 }
 
 .progress {
   background: #28a745;
   height: 100%;
-  position: relative;
   text-align: center;
   line-height: 60px;
+  color: #fff;
+  font-weight: bold;
 }
 
 .milestone-text {
-  color: #fff;
   font-size: 24px;
-  font-weight: bold;
   text-shadow: 1px 1px 2px #000;
-  display: block;
-  width: 100%;
   text-align: center;
-  white-space: nowrap;
-  overflow: visible;
 }
 
-.milestone-markers {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
+/* ========================= */
+/* Stats Section             */
+/* ========================= */
 
-.marker {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 2px;
-  background: #fff;
-  opacity: 0.6;
-}
-
-/* Stats Section (Issues & PRs) */
 #stats {
   display: flex;
   justify-content: space-between;
@@ -107,7 +93,10 @@ body {
   text-align: left;
 }
 
-/* Card Styling (Issues & PRs Details) */
+/* ========================= */
+/* Card Styling (General)    */
+/* ========================= */
+
 .card-container {
   display: flex;
   flex-direction: column;
@@ -115,24 +104,75 @@ body {
   height: 100%;
 }
 
+/* Each Card */
 .card {
   display: flex;
-  align-items: center;
   background: #333;
   border: 1px solid #555;
   padding: 5px;
   border-radius: 4px;
-  font-size: 12px;
   gap: 10px;
-  height: 60px;
+  min-height: 60px;
 }
-.card-content {
+
+/* ========================= */
+/* Card Left (Number Column) */
+/* ========================= */
+
+.card-left {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex: 0 0 100px; /* Fixed width */
+}
+
+.number {
+  font-size: 3em;
+  font-weight: bold;
+  text-align: center;
+  position: relative;
+  background: orange;
+  color: #222;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 110px;
+  height: 100%;
+}
+
+.number .repo-name {
+  font-weight: normal;
+  position: absolute;
+  bottom: 0px;
+  text-align: center;
+  width: 100%;
+  color: #333;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-size: min(0.3em, 4vw);
+}
+
+/* ========================= */
+/* Card Right (Content)      */
+/* ========================= */
+
+.card-right {
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  gap: 2px;
+  justify-content: space-between;
+  gap: 5px;
   text-align: left;
+}
+
+/* Card Content (Title & Meta Info) */
+.card-content {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }
 
 .card-title {
@@ -146,43 +186,61 @@ body {
   color: #aaa;
 }
 
-.card-changes {
-  font-size: 10px;
-  color: #4caf50;
-  text-align: right;
-  align-self: flex-end;
+/* Assignee Styling */
+.issue-assignee {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  margin-top: 5px;
 }
 
-/* Card number */
-.number {
-  font-size: 3em;
+.assignee-name {
+  font-size: 1em;
   font-weight: bold;
+  background: yellow;
+  color: black;
+  animation: flash-bg 1s infinite alternate;
+  padding: 3px 8px;
+  border-radius: 4px;
   text-align: center;
-  position: relative;
-  background: orange; /* Orange background */
-  color: #222;
-  display: inline-flex;
+  width: fit-content;
+}
+
+/* Flashing Animation for Assignees */
+@keyframes flash-bg {
+  0% {
+    background-color: red;
+  }
+  100% {
+    background-color: #333;
+  }
+}
+
+/* Pull Request Changes */
+.card-changes {
+  font-size: 0.9em;
+  font-weight: bold;
+  text-align: right;
+  margin-top: auto;
+  display: flex;
+  gap: 3px;
+  justify-content: flex-end;
   align-items: center;
-  justify-content: center;
-  width: 110px;
-  height: 100%;
+}
+.changes-additions {
+  color: #4caf50;
+}
+.changes-divider {
+  color: #fff;
+}
+.changes-deletions {
+  color: #f44336;
 }
 
-/* Override for when displaying repo name inside the card number */
-.number .repo-name {
-  font-weight: normal;
-  position: absolute;
-  bottom: 5px;
-  text-align: center;
-  width: 100%;
-  color: rgba(255, 255, 255, 0.8); /* Slightly lighter text for contrast */
-  white-space: nowrap; /* Prevent wrapping */
-  overflow: hidden; /* Prevent text spilling */
-  text-overflow: ellipsis;
-  font-size: min(0.3em, 4vw);
-}
+/* ========================= */
+/* Refresh Indicator         */
+/* ========================= */
 
-/* For refresh indicator */
 #refresh-indicator {
   position: fixed;
   bottom: 10px;
@@ -192,9 +250,35 @@ body {
   padding: 5px 10px;
   border-radius: 5px;
   font-size: 0.9em;
-  font-family: Arial, sans-serif;
   text-align: center;
   min-width: 120px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
   z-index: 1000;
+}
+
+/* ========================= */
+/* Responsive Tweaks         */
+/* ========================= */
+
+/* Ensure proper display on smaller screens */
+@media (max-width: 768px) {
+  #stats {
+    flex-direction: column;
+  }
+
+  .stat-box {
+    width: 100%;
+  }
+
+  .card {
+    flex-direction: column;
+  }
+
+  .card-left {
+    width: 100%;
+  }
+
+  .card-right {
+    text-align: center;
+  }
 }

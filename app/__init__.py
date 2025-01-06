@@ -73,13 +73,17 @@ def fetch_github_data():
                         "repo_name": repo_name.split("/")[1],
                         "title": issue.title,
                         "user": issue.user.login,
-                        "assignee": (
-                            issue.assignee.login if issue.assignee else "Unassigned"
+                        "assignees": (
+                            [assignee.login for assignee in issue.assignees]
+                            if issue.assignees
+                            else []
                         ),
                         "additions": 0,
                         "deletions": 0,
                     }
                 )
+
+                app.logger.debug(f"Issue {issue.title} for {issue.assignee}")
 
             # Fetch open pull requests
             pull_requests = repo.get_pulls(state="open")

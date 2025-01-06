@@ -10,7 +10,6 @@
 </head>
 
 <body>
-
     <!-- Milestone Progress Bars -->
     <section id="milestones">
         {% for milestone in milestones %}
@@ -32,45 +31,71 @@
 
     <!-- Issues and Pull Requests -->
     <section id="stats">
+        <!-- Issues Section -->
         <div class="stat-box" id="issues">
             <h2>Issues ({{ issues_count }})</h2>
             <div class="card-container">
                 {% for issue in issues %}
                 <div class="card">
-                    <div class="number">
-                        <div class="card-number">#{{ issue.number }}</div>
-                        <div class="repo-name">{{ issue.repo_name }}</div>
+                    <!-- Left Column: Number & Repo Name -->
+                    <div class="card-left">
+                        <div class="number">
+                            <div class="card-number">#{{ issue.number }}</div>
+                            <div class="repo-name">{{ issue.repo_name }}</div>
+                        </div>
                     </div>
-                    <div class="card-content">
-                        <span class="card-title">{{ issue.title }}</span>
-                        <span class="card-meta">Opened by {{ issue.user }}</span>
-                        <span class="card-changes">+{{ issue.additions }} / -{{ issue.deletions }}</span>
+
+                    <!-- Right Column: Title, Meta, Assignees -->
+                    <div class="card-right">
+                        <div class="card-content">
+                            <span class="card-title">{{ issue.title }}</span>
+                            <span class="card-meta">Opened by {{ issue.user }}</span>
+                        </div>
+                        {% if issue.assignees %}
+                        <div class="issue-assignee">
+                            {% for assignee in issue.assignees %}
+                            <div class="assignee-name">{{ assignee }}</div>
+                            {% endfor %}
+                        </div>
+                        {% endif %}
                     </div>
                 </div>
                 {% endfor %}
             </div>
         </div>
 
+        <!-- Pull Requests Section -->
         <div class="stat-box" id="pull-requests">
             <h2>Pull Requests ({{ pull_requests_count }})</h2>
             <div class="card-container">
                 {% for pr in pull_requests %}
                 <div class="card">
-                    <div class="number">
-                        <div class="card-number">#{{ pr.number }}</div>
-                        <div class="repo-name">{{ pr.repo_name }}</div>
+                    <!-- Left Column: Number & Repo Name -->
+                    <div class="card-left">
+                        <div class="number">
+                            <div class="card-number">#{{ pr.number }}</div>
+                            <div class="repo-name">{{ pr.repo_name }}</div>
+                        </div>
                     </div>
 
-                    <div class="card-content">
-                        <span class="card-title">{{ pr.title }}</span>
-                        <span class="card-meta">Opened by {{ pr.user }}</span>
-                        <span class="card-changes">+{{ pr.additions }} / -{{ pr.deletions }}</span>
+                    <!-- Right Column: Title, Meta, Changes -->
+                    <div class="card-right">
+                        <div class="card-content">
+                            <span class="card-title">{{ pr.title }}</span>
+                            <span class="card-meta">Opened by {{ pr.user }}</span>
+                        </div>
+                        <div class="card-changes">
+                            <span class="changes-additions">+{{ pr.additions }}</span>
+                            <span class="changes-divider">/</span>
+                            <span class="changes-deletions">-{{ pr.deletions }}</span>
+                        </div>
                     </div>
                 </div>
                 {% endfor %}
             </div>
         </div>
     </section>
+
 
     <div id="refresh-indicator">Wait...</div>
 </body>

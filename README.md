@@ -4,7 +4,7 @@
 
 Flask server for displaying a quick development HUD (built specifically for use with FRC1721's code environment.
 
-![image](https://github.com/user-attachments/assets/4e62c869-bbb0-4391-9818-1196055490b4)
+![image](https://github.com/user-attachments/assets/84932072-f848-4ab0-b196-a35a51713776)
 
 ## Development
 

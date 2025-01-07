@@ -30,3 +30,32 @@ services:
       USERNAME_MAP: username:realname,
 ```
 
+## Example setup with openbox autostart
+
+```
+#!/bin/bash
+
+unclutter -idle 0.1 -grab -root &
+
+while :
+do
+  until curl --output /dev/null --silent --head --fail "http://10.17.21.81:5000"; do
+    printf '.'
+    sleep 5
+  done
+
+  xrandr --auto
+  chromium \
+    --no-first-run \
+    --start-maximized \
+    --disable \
+    --disable-translate \
+    --disable-infobars \
+    --disable-suggestions-service \
+    --disable-save-password-bubble \
+    --disable-session-crashed-bubble \
+    --incognito \
+    --kiosk "http://10.17.21.81:5000"
+  sleep 5
+done &
+```

@@ -71,7 +71,7 @@ def fetch_github_data():
                             if (milestone.closed_issues + milestone.open_issues) > 0
                             else 0
                         ),
-                        "issues": milestone.open_issues,
+                        "issues": milestone.open_issues + milestone.closed_issues,
                     }
                 )
 

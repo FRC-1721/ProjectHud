@@ -42,13 +42,28 @@ body {
   margin: 5px 0;
 }
 
+.milestone-text {
+  color: #fff;
+  font-size: 24px;
+  font-weight: bold;
+  text-shadow: 1px 1px 2px #000;
+  display: block;
+  width: 100%;
+  text-align: left;
+  white-space: nowrap;
+  overflow: visible;
+}
+
+/* Progress Bar */
 .progress-bar {
   background: #555;
   height: 60px;
   border: 1px solid #777;
   overflow: hidden;
+  position: relative;
 }
 
+/* Progress Fill */
 .progress {
   background: #28a745;
   height: 100%;
@@ -58,16 +73,26 @@ body {
   font-weight: bold;
 }
 
-.milestone-text {
-  color: #fff;
-  font-size: 24px;
-  font-weight: bold;
-  text-shadow: 1px 1px 2px #000;
-  display: block;
+/* Marker Container */
+.milestone-markers {
+  position: absolute;
+  top: 0; /* Align with the top of the progress bar */
+  left: 0;
   width: 100%;
-  text-align: center;
-  white-space: nowrap;
-  overflow: visible;
+  height: 100%; /* Constrained to progress-bar height */
+  pointer-events: none;
+  z-index: 2; /* Ensure markers are above progress fill */
+}
+
+/* Individual Markers */
+.marker {
+  position: absolute;
+  top: 0%;
+  bottom: 0%;
+  width: 4px;
+  background: #fff;
+  opacity: 0.6;
+  border-radius: 1px;
 }
 
 /* ========================= */

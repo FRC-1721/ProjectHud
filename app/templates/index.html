@@ -14,20 +14,23 @@
     <section id="milestones">
         {% for milestone in milestones %}
         <div class="milestone">
-            <div class="milestone-subtitle"><span class="repo-name">{{ milestone.repo_name }}</span></div>
+            <div class="milestone-subtitle">
+                <span class="repo-name">{{ milestone.repo_name }}</span>
+            </div>
             <div class="progress-bar">
                 <div class="progress" style="width: {{ milestone.progress }}%;">
                     <span class="milestone-text">{{ milestone.name }} ({{ milestone.progress }}%)</span>
-                    <div class="milestone-markers">
-                        {% for i in range(milestone.issues) %}
-                        <div class="marker" style="left: {{ (i + 1) * (100 / milestone.issues) }}%;"></div>
-                        {% endfor %}
-                    </div>
+                </div>
+                <div class="milestone-markers">
+                    {% for i in range(milestone.issues) %}
+                    <div class="marker" style="left: {{ (i + 1) * (100 / milestone.issues) }}%;"></div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
         {% endfor %}
     </section>
+
 
     <!-- Issues and Pull Requests -->
     <section id="stats">

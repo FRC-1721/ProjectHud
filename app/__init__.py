@@ -98,6 +98,7 @@ def fetch_github_data():
                             {"name": label.name, "color": f"#{label.color}"}
                             for label in issue.labels
                         ],
+                        "updated_at": issue.updated_at,
                         "additions": 0,
                         "deletions": 0,
                     }
@@ -127,6 +128,7 @@ def fetch_github_data():
                             {"name": label.name, "color": f"#{label.color}"}
                             for label in pr.labels
                         ],
+                        "updated_at": pr.updated_at,
                         "additions": pr_details.additions,
                         "deletions": pr_details.deletions,
                     }
@@ -155,11 +157,11 @@ updater_thread.start()
 @app.route("/")
 def index():
     sorted_issues = sorted(
-        latest_data["issues"], key=lambda x: x["number"], reverse=True
+        latest_data["issues"], key=lambda x: x["updated_at"], reverse=True
     )
 
     sorted_pull_requests = sorted(
-        latest_data["pull_requests"], key=lambda x: x["number"], reverse=True
+        latest_data["pull_requests"], key=lambda x: x["updated_at"], reverse=True
     )
 
     return render_template(

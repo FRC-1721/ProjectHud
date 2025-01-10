@@ -63,7 +63,7 @@ def fetch_github_data():
                         "name": milestone.title,
                         "repo_name": repo_name,
                         "progress": (
-                            (
+                            round(
                                 milestone.closed_issues
                                 / (milestone.closed_issues + milestone.open_issues)
                                 * 100

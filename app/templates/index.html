@@ -40,16 +40,14 @@
             <div class="card-container">
                 {% for issue in issues %}
                 <div class="card">
-                    <!-- Left Column: Number & Repo Name -->
-                    <div class="card-left">
-                        <div class="number">
-                            <div class="card-number">#{{ issue.number }}</div>
-                            <div class="repo-name">{{ issue.repo_name }}</div>
-                        </div>
+                    <!-- Number & Repo Name -->
+                    <div class="number-box">
+                        <div class="card-number">#{{ issue.number }}</div>
+                        <div class="repo-name">{{ issue.repo_name }}</div>
                     </div>
 
-                    <!-- Right Column: Title, Meta, Assignees -->
-                    <div class="card-right">
+                    <!-- Data Column: Title, Meta, Assignees -->
+                    <div class="card-data">
                         <div class="card-content">
                             <span class="card-title">{{ issue.title }}</span>
                             <span class="card-meta">Opened by {{ issue.user }}</span>
@@ -62,6 +60,15 @@
                         </div>
                         {% endif %}
                     </div>
+
+                    <!-- Labels Column -->
+                    <div class="card-labels">
+                        {% for label in issue.labels %}
+                        <div class="issue-label" style="background-color: {{ label.color }};">
+                            {{ label.name }}
+                        </div>
+                        {% endfor %}
+                    </div>
                 </div>
                 {% endfor %}
             </div>
@@ -73,32 +80,38 @@
             <div class="card-container">
                 {% for pr in pull_requests %}
                 <div class="card">
-                    <!-- Left Column: Number & Repo Name -->
-                    <div class="card-left">
-                        <div class="number">
-                            <div class="card-number">#{{ pr.number }}</div>
-                            <div class="repo-name">{{ pr.repo_name }}</div>
-                        </div>
+                    <!-- Number & Repo Name -->
+                    <div class="number-box">
+                        <div class="card-number">#{{ pr.number }}</div>
+                        <div class="repo-name">{{ pr.repo_name }}</div>
                     </div>
 
-                    <!-- Right Column: Title, Meta, Changes -->
-                    <div class="card-right">
-                        <div class="card-content">
-                            <span class="card-title">{{ pr.title }}</span>
-                            <span class="card-meta">Opened by {{ pr.user }}</span>
-                            {% if pr.assignees %}
-                            <div class="card-assignee">
-                                {% for assignee in pr.assignees %}
-                                <div class="assignee-name">{{ assignee }}</div>
-                                {% endfor %}
-                            </div>
-                            {% endif %}
+                    <!-- Title, Meta, Changes -->
+                    <div class="card-data">
+                        <span class="card-title">{{ pr.title }}</span>
+                        <span class="card-meta">Opened by {{ pr.user }}</span>
+                        {% if pr.assignees %}
+                        <div class="card-assignee">
+                            {% for assignee in pr.assignees %}
+                            <div class="assignee-name">{{ assignee }}</div>
+                            {% endfor %}
                         </div>
-                        <div class="card-changes">
-                            <span class="changes-additions">+{{ pr.additions }}</span>
-                            <span class="changes-divider">/</span>
-                            <span class="changes-deletions">-{{ pr.deletions }}</span>
+                        {% endif %}
+                    </div>
+
+                    <!-- Labels Column -->
+                    <div class="card-labels">
+                        {% for label in pr.labels %}
+                        <div class="issue-label" style="background-color: {{ label.color }};">
+                            {{ label.name }}
                         </div>
+                        {% endfor %}
+                    </div>
+
+                    <div class="card-changes">
+                        <span class="changes-additions">+{{ pr.additions }}</span>
+                        <span class="changes-divider">/</span>
+                        <span class="changes-deletions">-{{ pr.deletions }}</span>
                     </div>
                 </div>
                 {% endfor %}

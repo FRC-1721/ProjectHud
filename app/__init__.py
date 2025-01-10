@@ -94,6 +94,10 @@ def fetch_github_data():
                             if issue.assignees
                             else []
                         ),
+                        "labels": [
+                            {"name": label.name, "color": f"#{label.color}"}
+                            for label in issue.labels
+                        ],
                         "additions": 0,
                         "deletions": 0,
                     }
@@ -119,6 +123,10 @@ def fetch_github_data():
                             if pr.assignees
                             else []
                         ),
+                        "labels": [
+                            {"name": label.name, "color": f"#{label.color}"}
+                            for label in pr.labels
+                        ],
                         "additions": pr_details.additions,
                         "deletions": pr_details.deletions,
                     }

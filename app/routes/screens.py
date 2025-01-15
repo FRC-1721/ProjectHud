@@ -10,7 +10,7 @@ screens_bp = Blueprint("screens", __name__)
 @screens_bp.route("/api/screens")
 def get_screens():
     return jsonify(
-        {"version": os.getenv("GIT_REVISION", None), "screens": ["/test", "/table"]}
+        {"version": os.getenv("GIT_REVISION", None), "screens": ["/table", "/pending"]}
     )
 
 
@@ -19,6 +19,11 @@ def test_screen():
     return f"<h1 style='text-align: center; margin-top: 20%;'>Please Wait! Version {os.getenv('GIT_REVISION', None)}</h1>"
 
 
+@screens_bp.route("/pending")
+def pending_screen():
+    return render_template("pending.html", **app.github_service.latest_data)
+
+
 @screens_bp.route("/table")
-def index():
+def table_screen():
     return render_template("table.html", **app.github_service.latest_data)

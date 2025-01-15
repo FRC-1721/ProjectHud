@@ -1,0 +1,99 @@
+/* ========================= */
+/* General Page Styling      */
+/* ========================= */
+
+body {
+  font-family: "Courier New", Courier, monospace;
+  margin: 0;
+  padding: 0;
+  background: #222; /* Same as global background */
+  color: #fff;
+  display: flex; /* Enable flexbox */
+  justify-content: center; /* Center horizontally */
+  height: 100vh; /* Full viewport height */
+  text-align: center; /* Center text */
+}
+
+/* ========================= */
+/* Pending Screen Styling    */
+/* ========================= */
+
+.pending-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px; /* Space between each person's row */
+  padding: 20px;
+}
+
+/* Each Person's Row */
+.pending-row {
+  display: flex;
+  flex-direction: column;
+  gap: 10px; /* Space between name and assignment boxes */
+  border-bottom: 1px solid #444; /* Separator line between rows */
+  padding-bottom: 10px;
+}
+
+/* Name Styling */
+.reviewer-name {
+  font-size: 5.5em; /* Big font for names */
+  font-weight: bold;
+  color: #fff;
+  text-shadow: 10px 10px 2px #000;
+  margin-bottom: 10px; /* Add space below name */
+}
+
+/* Assignments Container */
+.assignments {
+  display: flex;
+  gap: 10px; /* Space between assignment boxes */
+  flex-wrap: wrap; /* Allow wrapping if there are many assignments */
+}
+
+/* Assignment Box Styling */
+.assignment {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  border-radius: 8px;
+  min-width: 100px;
+  text-align: center;
+  font-size: 2.5em;
+  font-weight: bold;
+  color: #fff;
+}
+
+.assignment-number {
+  font-size: 1.5em;
+}
+
+.assignment-repo {
+  font-size: 0.9em;
+  color: #111;
+}
+
+/* Pending Review Style */
+.review-pending {
+  background-color: #aa0d0d;
+  animation: flash 0.2s infinite alternate;
+  border: 2px solid #ff0000;
+}
+
+/* Assigned (Non-Review) Style */
+.assignee {
+  background-color: #ffd700;
+  color: #222;
+  border: 2px solid #ffa500;
+}
+
+/* Flashing Animation */
+@keyframes flash {
+  from {
+    background-color: #aa0d0d;
+  }
+  to {
+    background-color: #ff0000;
+  }
+}

@@ -13,7 +13,7 @@ def get_screens():
 
 @screens_bp.route("/test")
 def test_screen():
-    return "<h1 style='text-align: center; margin-top: 20%;'>Test Screen</h1>"
+    return f"<h1 style='text-align: center; margin-top: 20%;'>Please Wait! Version {os.getenv('GIT_REVISION', None)}</h1>"
 
 
 @screens_bp.route("/table")

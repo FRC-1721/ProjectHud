@@ -23,11 +23,14 @@ def create_app():
         for pair in os.getenv("USERNAME_MAP", "").split(",")
         if ":" in pair
     }
-    github_service = GitHubService(
+
+    # Register service with app
+    app.github_service = GitHubService(
         token=os.getenv("GITHUB_TOKEN"),
         repos=os.getenv("GITHUB_REPOS", "").split(","),
         username_mapping=username_mapping,
     )
-    threading.Thread(target=github_service.fetch_data, daemon=True).start()
+
+    threading.Thread(target=app.github_service.fetch_data, daemon=True).start()
 
     return app

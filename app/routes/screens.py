@@ -1,5 +1,8 @@
 import os
+from flask import current_app as app
 from flask import Blueprint, jsonify, render_template
+
+from app.services.github_service import GitHubService
 
 screens_bp = Blueprint("screens", __name__)
 
@@ -18,4 +21,4 @@ def test_screen():
 
 @screens_bp.route("/table")
 def index():
-    return render_template("table.html")
+    return render_template("table.html", **app.github_service.latest_data)

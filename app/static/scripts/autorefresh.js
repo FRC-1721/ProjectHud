@@ -1,61 +1,57 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Refresh interval (in milliseconds)
-    const REFRESH_INTERVAL = 10000; // 10 seconds
-    let timeLeft = REFRESH_INTERVAL / 1000; // Countdown in seconds
+    // Configurable refresh duration (in seconds)
+    const REFRESH_DURATION = 25;
 
-    // Countdown Timer
+    // HTML items
+    const iframe = document.getElementById("board-iframe");
     const refreshIndicator = document.getElementById('refresh-indicator');
-    const countdownTimer = setInterval(() => {
-        timeLeft -= 1;
-        if (timeLeft >= 0) {
-            refreshIndicator.innerText = `Refresh in ${timeLeft}s`;
+
+    let screens = [];
+    let currentScreenIndex = 0;
+    let initialVersion = null;
+    let countdown = REFRESH_DURATION;
+
+    async function fetchScreens() {
+        try {
+            const response = await fetch("/api/screens");
+            const data = await response.json();
+
+            // Check for server version change
+            if (initialVersion === null) {
+                initialVersion = data.version;
+            } else if (initialVersion !== data.version) {
+                console.log("Server version changed, reloading...");
+                refreshIndicator.innerText = "Version change! Reloading...";
+                window.location.reload();
+            }
+
+            screens = data.screens;
+        } catch (error) {
+            console.error("Failed to fetch screens:", error);
+            refreshIndicator.innerText = "Error: Failed to fetch screens.";
         }
-    }, 1000);
-
-    // Auto-refresh every 10 seconds
-    setInterval(() => {
-        fetch(window.location.href, { method: 'HEAD' })
-            .then(response => {
-                if (response.ok) {
-                    window.location.reload();
-                } else {
-                    console.warn('Server not responding, will retry in 10 seconds');
-                    refreshIndicator.innerText = 'Server down. Retrying...';
-                    timeLeft = REFRESH_INTERVAL / 1000; // Reset countdown
-                }
-            })
-            .catch(error => {
-                console.error('Fetch failed, server might be down:', error);
-                refreshIndicator.innerText = 'Server down. Retrying...';
-                timeLeft = REFRESH_INTERVAL / 1000; // Reset countdown
-            });
-    }, REFRESH_INTERVAL);
-
-    // Retry logic for server downtime
-    function checkServerStatus() {
-        fetch(window.location.href, { method: 'HEAD' })
-            .then(response => {
-                if (response.ok) {
-                    console.log('Server is back online, refreshing page...');
-                    window.location.reload();
-                } else {
-                    console.warn('Server still down, retrying in 10 seconds');
-                    refreshIndicator.innerText = 'Reconnecting...';
-                    setTimeout(checkServerStatus, 10000);
-                }
-            })
-            .catch(error => {
-                console.error('Failed to reach server:', error);
-                refreshIndicator.innerText = 'Reconnecting...';
-                setTimeout(checkServerStatus, 10000);
-            });
     }
 
-    // Initial check if the page fails to load
-    window.addEventListener('error', (event) => {
-        console.error('Critical error detected:', event);
-        console.warn('Starting server status checks...');
-        refreshIndicator.innerText = 'Reconnecting...';
-        checkServerStatus();
+    function cycleScreens() {
+        if (screens.length > 0) {
+            currentScreenIndex = (currentScreenIndex + 1) % screens.length;
+            iframe.src = screens[currentScreenIndex];
+        }
+    }
+
+    function updateCountdown() {
+        refreshIndicator.innerText = `Changing in ${countdown}s`;
+        if (countdown <= 0) {
+            countdown = REFRESH_DURATION;
+            fetchScreens(); // Fetch screens and check for updates
+            cycleScreens(); // Cycle to the next screen
+        } else {
+            countdown -= 1;
+        }
+    }
+
+    // Initial fetch and start cycling
+    fetchScreens().then(() => {
+        setInterval(updateCountdown, 1000); // Update countdown every second
     });
 });

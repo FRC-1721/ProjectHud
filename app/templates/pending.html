@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/static/styles/pending.css">
+</head>
+
+<body>
+    <div class="pending-reviews">
+        {% for reviewer in pending_reviews %}
+        <div class="reviewer">
+            <div class="reviewer-name">{{ reviewer.name }}</div>
+            <div class="assignments">
+                {% for assignment in reviewer.assignments %}
+                <div class="assignment {% if assignment.is_review %}review-pending{% else %}assignee{% endif %}">
+                    <span class="assignment-number">#{{ assignment.pr_number }}</span>
+                    <span class="assignment-repo">{{ assignment.repo_name }}</span>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+</body>
+
+</html>

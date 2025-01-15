@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     // Configurable refresh duration (in seconds)
-    const REFRESH_DURATION = 5;
+    const REFRESH_DURATION = 25;
 
     // HTML items
     const iframe = document.getElementById("board-iframe");

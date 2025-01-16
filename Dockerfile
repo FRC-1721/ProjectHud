@@ -12,7 +12,7 @@ COPY requirements.txt .
 RUN pip install --upgrade pip && pip install -r requirements.txt
 
 # Install npm dependencies
-COPY package.json package-lock.json ./
+COPY package.json package-lock.json webpack.config.js ./
 RUN npm install
 
 # Add built assets to static folder

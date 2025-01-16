@@ -40,6 +40,8 @@ class GitHubService:
         issues_data = []
         pr_data = []
 
+        print("Updating General Data")
+
         for repo_name in self.repos:
             repo = self.gh.get_repo(repo_name)
 
@@ -106,6 +108,8 @@ class GitHubService:
         """Fetch and update pending review requests data."""
         pending_reviews = defaultdict(list)
 
+        print("Updating Pending Reviews")
+
         for repo_name in self.repos:
             repo = self.gh.get_repo(repo_name)
 
@@ -153,6 +157,8 @@ class GitHubService:
     def fetch_branch_graph(self):
         """Fetch branch and commit data for branches with open PRs and the default branch."""
         branch_graph = {}
+
+        print("Updating Branch Data")
 
         for repo_name in self.repos:
             repo = self.gh.get_repo(repo_name)

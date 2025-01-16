@@ -8,9 +8,24 @@ Flask server for displaying a quick development HUD (built specifically for use 
 
 ## Development
 
+Example ENV file
+
+```bash
+GITHUB_TOKEN=<your token>
+GITHUB_REPOS=FRC-1721/ProjectHud
+USERNAME_MAP=KenwoodFox:Joe,Kredcool:Keegan
+GIT_COMMIT=Whatever
+```
+
 ```shell
 pipenv shell
 flask run --debug
+```
+
+Some screens now require js libs so be sure to install and package those locally
+```shell
+npm run install
+npm run build
 ```
 
 ## Deploy

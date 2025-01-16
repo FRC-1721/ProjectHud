@@ -1,6 +1,6 @@
 import os
 from flask import current_app as app
-from flask import Blueprint, jsonify, render_template
+from flask import Blueprint, jsonify, render_template, request
 
 from app.services.github_service import GitHubService
 
@@ -9,14 +9,27 @@ screens_bp = Blueprint("screens", __name__)
 
 @screens_bp.route("/api/screens")
 def get_screens():
-    screens = ["/table"]
+    screens = ["/test"]
+
+    if (
+        len(app.github_service.latest_data["issues"])
+        + len(app.github_service.latest_data["pull_requests"])
+        + len(app.github_service.latest_data["milestones"])
+        > 0
+    ):
+        screens.append("/table")
+    else:
+        app.logger.warning("Not including table screen (no data)")
+
     if len(app.github_service.latest_data["pending_reviews"]) > 0:
         screens.append("/pending")
     else:
         app.logger.warning("Not including pending reviews (no data)")
 
-    if len(app.github_service.latest_data["branch_graph"]) > 0:
-        screens.append("/branch")
+    branch_graph = app.github_service.latest_data["branch_graph"]
+    if branch_graph:
+        for repo_name in branch_graph.keys():
+            screens.append(f"/branch?repo={repo_name}")
     else:
         app.logger.warning("Not including branch graph (no data)")
 
@@ -61,5 +74,21 @@ def table_screen():
 
 
 @screens_bp.route("/branch")
-def branch_screen():
-    return render_template("branch.html", **app.github_service.latest_data)
+def branch_graph():
+    repo_name = request.args.get("repo")
+    if not repo_name:
+        return "Repository name is required", 400
+
+    branch_graph = app.github_service.latest_data["branch_graph"]
+
+    if repo_name not in branch_graph:
+        return f"Repository '{repo_name}' not found", 404
+
+    # Retrieve data for the specified repository
+    repo_data = branch_graph[repo_name]
+    if not repo_data:
+        return f"No data available for repository '{repo_name}'", 404
+
+    # Pass only the relevant repository data to the template
+    repo_data = branch_graph[repo_name]
+    return render_template("branch.html", repo_name=repo_name, repo_data=repo_data)

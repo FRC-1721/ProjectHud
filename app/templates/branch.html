@@ -48,26 +48,58 @@
 
 <body>
     <h1>Branch Graph</h1>
-    <div id="gitgraph-container"></div>
+    <div id="gitgraph-container" data-repo-name="{{ repo_name }}" data-repo-data="{{ repo_data | tojson }}"></div>
     <script>
         document.addEventListener("DOMContentLoaded", () => {
             const container = document.getElementById("gitgraph-container");
+
+            // Extract repository name and data from the container
+            const repoName = container.dataset.repoName;
+            let repoData;
+
+            try {
+                repoData = JSON.parse(container.dataset.repoData);
+            } catch (error) {
+                console.error("Invalid or missing repository data:", error);
+                return;
+            }
+
+            // Create the gitgraph container
             const gitgraph = GitgraphJS.createGitgraph(container);
 
-            // Example: Generate a graph for one repository
-            const main = gitgraph.branch("main");
-            main.commit("Initial commit");
+            // Populate the graph with branches and commits
+            const branchObjects = {};
+            for (const [branchName, branchData] of Object.entries(repoData)) {
+                const branch = gitgraph.branch(branchName);
+                branchObjects[branchName] = branch;
 
-            const feature1 = gitgraph.branch("feature-1");
-            feature1.commit("Start feature-1");
-            feature1.commit("Develop feature-1");
+                // Add commits to the branch
+                branchData.commits.forEach(commit => {
+                    branch.commit({
+                        subject: commit.message,
+                        hash: commit.sha,
+                        style: { dotColor: branchData.color },
+                    });
+                });
 
-            main.merge(feature1, "Merge feature-1");
+                // Handle pull request targets with dotted lines
+                if (branchData.target_pr) {
+                    const targetBranch = branchObjects[branchData.target_pr];
+                    if (targetBranch) {
+                        targetBranch.merge(branch, "Merge pull request");
+                    }
+                }
+            }
 
-            const hotfix = gitgraph.branch("hotfix");
-            hotfix.commit("Hotfix critical issue");
-            main.merge(hotfix, "Apply hotfix");
+            // Optionally scroll to the bottom where branch heads are located
+            setTimeout(() => {
+                container.scrollTo({
+                    top: container.scrollHeight,
+                    behavior: "smooth",
+                });
+            }, 500); // Delay to ensure rendering is complete
         });
+
     </script>
 </body>
 

@@ -20,6 +20,7 @@ class GitHubService:
             "issues_count": 0,
             "pull_requests_count": 0,
             "pending_reviews": [],
+            "branch_graph": {},
         }
 
     def fetch_data(self):
@@ -27,8 +28,7 @@ class GitHubService:
         while True:
             self.update_general_data()
             self.update_pending_reviews()
-
-            print("Updated github data.")
+            self.fetch_branch_graph()
 
             time.sleep(90)
 
@@ -96,13 +96,11 @@ class GitHubService:
                     }
                 )
 
-        self.latest_data = {
-            "milestones": milestones_data,
-            "issues": issues_data,
-            "pull_requests": pr_data,
-            "issues_count": len(issues_data),
-            "pull_requests_count": len(pr_data),
-        }
+        self.latest_data["milestones"] = milestones_data
+        self.latest_data["issues"] = issues_data
+        self.latest_data["pull_requests"] = pr_data
+        self.latest_data["issues_count"] = len(issues_data)
+        self.latest_data["pull_requests_count"] = len(pr_data)
 
     def update_pending_reviews(self):
         """Fetch and update pending review requests data."""
@@ -151,3 +149,78 @@ class GitHubService:
             {"name": name, "assignments": assignments}
             for name, assignments in pending_reviews.items()
         ]
+
+    def fetch_branch_graph(self):
+        """Fetch branch and commit data for branches with open PRs and the default branch."""
+        branch_graph = {}
+
+        for repo_name in self.repos:
+            repo = self.gh.get_repo(repo_name)
+            repo_data = {"repo_name": repo.full_name, "branches": []}
+
+            # Include the default branch
+            default_branch_name = repo.default_branch
+            default_branch_commits = repo.get_commits(sha=default_branch_name)[:20]
+            default_branch_info = {
+                "name": default_branch_name,
+                "commits": [
+                    {
+                        "sha": commit.sha,
+                        "message": commit.commit.message,
+                        "author": (
+                            commit.commit.author.name
+                            if commit.commit.author
+                            else "Unknown"
+                        ),
+                        "date": (
+                            commit.commit.author.date.isoformat()
+                            if commit.commit.author
+                            else None
+                        ),
+                    }
+                    for commit in default_branch_commits
+                ],
+                "target_pr": None,  # Default branch is not targeted by a PR
+            }
+            repo_data["branches"].append(default_branch_info)
+
+            # Fetch branches with open pull requests
+            pull_requests = repo.get_pulls(state="open")
+            for pr in pull_requests:
+                branch_name = pr.head.ref
+                target_branch = pr.base.ref
+
+                # Fetch the last 20 commits for the branch
+                commits = repo.get_commits(sha=branch_name)[:20]
+                branch_info = {
+                    "name": branch_name,
+                    "commits": [
+                        {
+                            "sha": commit.sha,
+                            "message": commit.commit.message,
+                            "author": (
+                                commit.commit.author.name
+                                if commit.commit.author
+                                else "Unknown"
+                            ),
+                            "date": (
+                                commit.commit.author.date.isoformat()
+                                if commit.commit.author
+                                else None
+                            ),
+                        }
+                        for commit in commits
+                    ],
+                    "target_pr": target_branch,
+                }
+
+                repo_data["branches"].append(branch_info)
+
+            # Only include on branches that are not empty.
+            if len(repo_data["branches"]) > 0:
+                branch_graph[repo.full_name] = repo_data
+            else:
+                pass
+
+        # Update global data structure
+        self.latest_data["branch_graph"] = branch_graph

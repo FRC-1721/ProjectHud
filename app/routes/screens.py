@@ -9,9 +9,18 @@ screens_bp = Blueprint("screens", __name__)
 
 @screens_bp.route("/api/screens")
 def get_screens():
-    return jsonify(
-        {"version": os.getenv("GIT_COMMIT", None), "screens": ["/table", "/pending"]}
-    )
+    screens = ["/table"]
+    if len(app.github_service.latest_data["pending_reviews"]) > 0:
+        screens.append("/pending")
+    else:
+        app.logger.warning("Not including pending reviews (no data)")
+
+    if len(app.github_service.latest_data["branch_graph"]) > 0:
+        screens.append("/branch")
+    else:
+        app.logger.warning("Not including branch graph (no data)")
+
+    return jsonify({"version": os.getenv("GIT_COMMIT", None), "screens": screens})
 
 
 @screens_bp.route("/test")
@@ -49,3 +58,8 @@ def pending_screen():
 @screens_bp.route("/table")
 def table_screen():
     return render_template("table.html", **app.github_service.latest_data)
+
+
+@screens_bp.route("/branch")
+def branch_screen():
+    return render_template("branch.html", **app.github_service.latest_data)

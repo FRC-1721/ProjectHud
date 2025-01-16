@@ -5,11 +5,15 @@ from flask import Flask
 
 from app.routes.index import index_bp
 from app.routes.screens import screens_bp
+from app.filters.time_formatter import time_ago
 
 from app.services.github_service import GitHubService
 
 
 app = Flask(__name__)
+
+# Filters
+app.jinja_env.filters["time_ago"] = time_ago
 
 
 def create_app():

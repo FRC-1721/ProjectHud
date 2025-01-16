@@ -88,6 +88,28 @@ body {
   border: 2px solid #ffa500;
 }
 
+/* ====== */
+/* Footer */
+/* ====== */
+.page-footer {
+  position: fixed;
+  bottom: 10px;
+  left: 10px;
+  font-size: 0.9em;
+  color: #aaa;
+  background: #333;
+  padding: 5px 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+  z-index: 1000; /* Ensure it stays above other elements */
+  font-family: "Courier New", Courier, monospace;
+}
+
+.page-footer a {
+  color: #ffa500; /* Link color */
+  text-decoration: none;
+}
+
 /* Flashing Animation */
 @keyframes flash {
   from {

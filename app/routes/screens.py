@@ -43,9 +43,17 @@ def test_screen():
 
 @screens_bp.route("/pending")
 def pending_screen():
-    return render_template("pending.html", **app.github_service.latest_data)
+    return render_template(
+        "pending.html",
+        **app.github_service.latest_data,
+        last_updated=app.github_service.last_updated,
+    )
 
 
 @screens_bp.route("/table")
 def table_screen():
-    return render_template("table.html", **app.github_service.latest_data)
+    return render_template(
+        "table.html",
+        **app.github_service.latest_data,
+        last_updated=app.github_service.last_updated,
+    )

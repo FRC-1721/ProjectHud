@@ -1,5 +1,6 @@
 import time
 import threading
+from datetime import datetime
 
 from github import Github
 
@@ -21,6 +22,7 @@ class GitHubService:
             "pull_requests_count": 0,
             "pending_reviews": [],
         }
+        self.last_updated = None
 
     def fetch_data(self):
         """Main loop for updating GitHub data."""
@@ -29,8 +31,9 @@ class GitHubService:
             self.update_pending_reviews()
 
             print("Updated github data.")
+            self.last_updated = datetime.now()
 
-            time.sleep(90)
+            time.sleep(120)
 
     def get_mapped_username(self, username):
         return self.username_mapping.get(username, username)

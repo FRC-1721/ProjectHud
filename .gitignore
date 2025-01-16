@@ -1,3 +1,10 @@
+# Dev
 .db
 __pycache__
 .env
+
+# Node
+node_modules
+
+# Bundles
+app/static/scripts/*.bundle.js

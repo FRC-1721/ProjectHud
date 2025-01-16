@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Branch Graph</title>
+    <script src="/static/scripts/gitgraph.bundle.js"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #222;
+            color: #fff;
+            font-family: " Courier New", Courier, monospace;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 20px 0;
+            color: #ffa500;
+            text-shadow: 2px 2px 4px #000;
+        }
+
+        #gitgraph-container {
+            width: 90%;
+            margin: 0 auto;
+            height: 600px;
+            background: #333;
+            border: 2px solid #444;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .repo-title {
+            text-align: center;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            text-shadow: 1px 1px 2px #000;
+            color: #ffa500;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Branch Graph</h1>
+    <div id="gitgraph-container" data-repo-name="{{ repo_name }}" data-repo-data="{{ repo_data | tojson }}"></div>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const container = document.getElementById("gitgraph-container");
+
+            // Extract repository name and data from the container
+            const repoName = container.dataset.repoName;
+            let repoData;
+
+            try {
+                repoData = JSON.parse(container.dataset.repoData);
+            } catch (error) {
+                console.error("Invalid or missing repository data:", error);
+                return;
+            }
+
+            // Create the gitgraph container
+            const gitgraph = GitgraphJS.createGitgraph(container);
+
+            // Populate the graph with branches and commits
+            const branchObjects = {};
+            for (const [branchName, branchData] of Object.entries(repoData)) {
+                const branch = gitgraph.branch(branchName);
+                branchObjects[branchName] = branch;
+
+                // Add commits to the branch
+                branchData.commits.forEach(commit => {
+                    branch.commit({
+                        subject: commit.message,
+                        hash: commit.sha,
+                        style: { dotColor: branchData.color },
+                    });
+                });
+
+                // Handle pull request targets with dotted lines
+                if (branchData.target_pr) {
+                    const targetBranch = branchObjects[branchData.target_pr];
+                    if (targetBranch) {
+                        targetBranch.merge(branch, "Merge pull request");
+                    }
+                }
+            }
+
+            // Optionally scroll to the bottom where branch heads are located
+            setTimeout(() => {
+                container.scrollTo({
+                    top: container.scrollHeight,
+                    behavior: "smooth",
+                });
+            }, 500); // Delay to ensure rendering is complete
+        });
+
+    </script>
+</body>
+
+</html>

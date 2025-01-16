@@ -11,6 +11,9 @@ from app.services.github_service import GitHubService
 
 app = Flask(__name__)
 
+# Add globals
+app.jinja_env.globals.update(enumerate=enumerate)
+
 
 def create_app():
     # Register Blueprints

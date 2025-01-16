@@ -1,0 +1,28 @@
+{
+  "name": "projecthud",
+  "version": "1.0.0",
+  "description": "[![ProjectHUD CI](https://github.com/FRC-1721/ProjectHud/actions/workflows/build_docker.yml/badge.svg)](https://github.com/FRC-1721/ProjectHud/actions/workflows/build_docker.yml)",
+  "main": "index.js",
+  "scripts": {
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FRC-1721/ProjectHud.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/FRC-1721/ProjectHud/issues"
+  },
+  "homepage": "https://github.com/FRC-1721/ProjectHud#readme",
+  "dependencies": {
+    "@gitgraph/js": "^1.4.0"
+  },
+  "devDependencies": {
+    "webpack": "^5.97.1",
+    "webpack-cli": "^6.0.1"
+  }
+}

@@ -5,26 +5,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Branch Graph</title>
-    <script src="/static/scripts/branch-graph.js" defer></script>
+    <script src="/static/scripts/gitgraph.bundle.js"></script>
     <style>
         body {
             margin: 0;
             padding: 0;
             background: #222;
             color: #fff;
-            font-family: "Courier New", Courier, monospace;
+            font-family: " Courier New", Courier, monospace;
             display: flex;
             flex-direction: column;
             gap: 20px;
         }
 
-        .repo-section {
-            padding: 20px;
-            border: 1px solid #444;
-            background: #333;
-            margin: 10px auto;
+        h1 {
+            text-align: center;
+            margin: 20px 0;
+            color: #ffa500;
+            text-shadow: 2px 2px 4px #000;
+        }
+
+        #gitgraph-container {
             width: 90%;
-            border-radius: 8px;
+            margin: 0 auto;
+            height: 600px;
+            background: #333;
+            border: 2px solid #444;
+            border-radius: 10px;
+            position: relative;
+            overflow: hidden;
         }
 
         .repo-title {
@@ -32,86 +41,34 @@
             font-size: 1.5em;
             margin-bottom: 20px;
             text-shadow: 1px 1px 2px #000;
-        }
-
-        .branch-graph {
-            position: relative;
-            height: 200px;
-            border-top: 1px solid #555;
-            margin-top: 20px;
-        }
-
-        .branch {
-            position: absolute;
-            width: 100%;
-            display: flex;
-            justify-content: space-between;
-        }
-
-        .commit {
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
-            background: #4caf50;
-            box-shadow: 0 0 5px #4caf50;
-        }
-
-        .branch.default .commit {
-            background: orange;
-            box-shadow: 0 0 5px orange;
-        }
-
-        .branch .commit-label {
-            font-size: 0.8em;
-            color: #fff;
-            position: relative;
-            top: -20px;
-            text-align: center;
-        }
-
-        .connection {
-            position: absolute;
-            height: 2px;
-            background: #888;
-            transform-origin: 0 50%;
-            z-index: 0;
-        }
-
-
-        .connection.dotted {
-            border-top: 2px dashed #ffa500;
+            color: #ffa500;
         }
     </style>
 </head>
 
 <body>
-    {% for repo in branch_graph.values() %}
-    <div class="repo-section">
-        <div class="repo-title">{{ repo.repo_name }}</div>
-        <div class="branch-graph">
-            {% for branch in repo.branches %}
-            <div class="branch {{ 'default' if branch.name == repo.default_branch }}"
-                style="top: {{ loop.index * 50 }}px;" data-branch="{{ branch.name }}" data-color="{{ branch.color }}">
-                <!-- Branch Label -->
-                <div class="branch-label" style="background-color: {{ branch.color }};">
-                    {{ branch.name }}
-                </div>
-                <!-- Commits -->
-                {% for i, commit in enumerate(branch.commits) %}
-                <div class="commit" id="commit-{{ branch.name }}-{{ i }}"
-                    style="left: {{ (i / (branch.commits | length - 1)) * 100 }}%;" data-branch="{{ branch.name }}"
-                    data-sha="{{ commit.sha }}" data-date="{{ commit.date }}">
+    <h1>Branch Graph</h1>
+    <div id="gitgraph-container"></div>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const container = document.getElementById("gitgraph-container");
+            const gitgraph = GitgraphJS.createGitgraph(container);
 
-                    <div class="commit-label">{{ commit.sha[:6] }}</div>
-                </div>
-                {% endfor %}
-            </div>
-            {% endfor %}
-        </div>
-        <div id="connections"></div>
+            // Example: Generate a graph for one repository
+            const main = gitgraph.branch("main");
+            main.commit("Initial commit");
 
-    </div>
-    {% endfor %}
+            const feature1 = gitgraph.branch("feature-1");
+            feature1.commit("Start feature-1");
+            feature1.commit("Develop feature-1");
+
+            main.merge(feature1, "Merge feature-1");
+
+            const hotfix = gitgraph.branch("hotfix");
+            hotfix.commit("Hotfix critical issue");
+            main.merge(hotfix, "Apply hotfix");
+        });
+    </script>
 </body>
 
 </html>

@@ -4,9 +4,19 @@ FROM python:3.10-slim
 # Set the working directory inside the container
 WORKDIR /app
 
+# Install Node.js and npm
+RUN apt-get update && apt-get install -y nodejs npm
+
 # Copy requirements.txt and install dependencies globally
 COPY requirements.txt .
 RUN pip install --upgrade pip && pip install -r requirements.txt
+
+# Install npm dependencies
+COPY package.json package-lock.json ./
+RUN npm install
+
+# Add built assets to static folder
+RUN npm run build
 
 # Copy the app code to the container
 COPY . .

@@ -28,6 +28,8 @@ services:
       GITHUB_TOKEN: YOUR_TOKEN
       GITHUB_REPOS: YOUR,REPOS
       USERNAME_MAP: username:realname,
+      REFRESH_DURATION: 25 # Optional
+      API_REFRESH_DURATION: 200 # Optional
 ```
 
 ## Example setup with openbox autostart

@@ -1,11 +1,6 @@
 name: ProjectHUD CI
 
-on:
-  push:
-    branches:
-      - "*"
-    tags:
-      - "*"
+on: push
 
 env:
   REGISTRY: ghcr.io

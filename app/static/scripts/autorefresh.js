@@ -1,7 +1,4 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Configurable refresh duration (in seconds)
-    const REFRESH_DURATION = 25;
-
     // HTML items
     const iframe = document.getElementById("board-iframe");
     const refreshIndicator = document.getElementById('refresh-indicator');
@@ -9,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let screens = [];
     let currentScreenIndex = 0;
     let initialVersion = null;
-    let countdown = REFRESH_DURATION;
+    let countdown = REFRESH_DURATION; // Use the dynamic variable
 
     async function fetchScreens() {
         try {
@@ -42,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateCountdown() {
         refreshIndicator.innerText = `Changing in ${countdown}s`;
         if (countdown <= 0) {
-            countdown = REFRESH_DURATION;
+            countdown = REFRESH_DURATION; // Reset countdown
             fetchScreens(); // Fetch screens and check for updates
             cycleScreens(); // Cycle to the next screen
         } else {

@@ -1,5 +1,7 @@
+import os
 import time
 import threading
+
 from datetime import datetime
 
 from github import Github
@@ -33,7 +35,7 @@ class GitHubService:
             print("Updated github data.")
             self.last_updated = datetime.now()
 
-            time.sleep(120)
+            time.sleep(int(os.getenv("API_REFRESH_DURATION", 200)))
 
     def get_mapped_username(self, username):
         return self.username_mapping.get(username, username)
@@ -54,9 +56,12 @@ class GitHubService:
                         "name": milestone.title,
                         "progress": (
                             (
-                                milestone.closed_issues
-                                / (milestone.closed_issues + milestone.open_issues)
-                                * 100
+                                round(
+                                    milestone.closed_issues
+                                    / (milestone.closed_issues + milestone.open_issues)
+                                    * 100,
+                                    2,
+                                )
                             )
                             if (milestone.closed_issues + milestone.open_issues) > 0
                             else 0

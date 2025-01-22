@@ -35,7 +35,7 @@ def test_screen():
         </style>
     </head>
     <body>
-        <h1>Please Wait! Version {os.getenv('GIT_COMMIT', 'Unknown')}</h1>
+        <h1>ProjectHUD Starting! Version {os.getenv('GIT_COMMIT', 'Unknown')}</h1>
     </body>
     </html>
     """

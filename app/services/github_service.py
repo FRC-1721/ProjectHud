@@ -101,6 +101,7 @@ class GitHubService:
                             for label in pr.labels
                         ],
                         "updated_at": pr.updated_at,
+                        "is_draft": pr.draft,
                     }
                 )
 
@@ -135,6 +136,7 @@ class GitHubService:
                             "pr_number": pr.number,
                             "repo_name": repo.name,
                             "is_review": True,
+                            "is_draft": pr.draft,
                         }
                     )
 
@@ -151,6 +153,7 @@ class GitHubService:
                                     "pr_number": pr.number,
                                     "repo_name": repo.name,
                                     "is_review": False,
+                                    "is_draft": pr.draft,
                                 }
                             )
 

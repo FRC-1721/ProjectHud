@@ -304,6 +304,12 @@ body {
   white-space: nowrap; /* Prevent text wrapping */
 }
 
+/* Draft PR Styling */
+.draft-pr {
+  opacity: 0.5;
+  background: #444 !important;
+}
+
 /* ========================= */
 /* Responsive Tweaks         */
 /* ========================= */

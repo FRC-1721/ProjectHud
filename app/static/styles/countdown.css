@@ -10,13 +10,13 @@ body {
 }
 
 h1 {
-  font-size: 4em;
+  font-size: 8em;
   color: rgb(163, 0, 46);
   text-shadow: 2px 2px 5px red;
 }
 
 #countdown {
-  font-size: 8em;
+  font-size: 7em;
   font-weight: bold;
   letter-spacing: 5px;
   background: rgb(40, 40, 40);

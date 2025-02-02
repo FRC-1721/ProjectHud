@@ -125,6 +125,9 @@ class GitHubService:
             for pr in pull_requests:
                 pr_details = repo.get_pull(pr.number)
 
+                if pr.draft:  # Skip drafts
+                    continue
+
                 # Check for users with pending review requests
                 requested_reviewers = pr_details.get_review_requests()
                 for reviewer in requested_reviewers[
@@ -135,8 +138,7 @@ class GitHubService:
                         {
                             "pr_number": pr.number,
                             "repo_name": repo.name,
-                            "is_review": True,
-                            "is_draft": pr.draft,
+                            "is_review": True,  # This is a review request
                         }
                     )
 
@@ -152,13 +154,23 @@ class GitHubService:
                                 {
                                     "pr_number": pr.number,
                                     "repo_name": repo.name,
-                                    "is_review": False,
-                                    "is_draft": pr.draft,
+                                    "is_review": False,  # Regular assignment
                                 }
                             )
+
+        # Sort each reviewer's assignments: review-pending first
+        for reviewer in pending_reviews:
+            pending_reviews[reviewer] = sorted(
+                pending_reviews[reviewer], key=lambda x: not x["is_review"]
+            )
+
+        # Sort reviewers by the number of assignments (most important at top)
+        sorted_reviewers = sorted(
+            pending_reviews.items(), key=lambda x: len(x[1]), reverse=True
+        )
 
         # Update pending reviews in the global data
         self.latest_data["pending_reviews"] = [
             {"name": name, "assignments": assignments}
-            for name, assignments in pending_reviews.items()
+            for name, assignments in sorted_reviewers
         ]

@@ -13,12 +13,10 @@
             <div class="reviewer-name">{{ reviewer.name }}</div>
             <div class="assignments">
                 {% for assignment in reviewer.assignments %}
-                {% if not assignment.is_draft %} <!-- Skip drafts -->
                 <div class="assignment {% if assignment.is_review %}review-pending{% else %}assignee{% endif %}">
                     <span class="assignment-number">#{{ assignment.pr_number }}</span>
                     <span class="assignment-repo">{{ assignment.repo_name }}</span>
                 </div>
-                {% endif %}
                 {% endfor %}
             </div>
         </div>

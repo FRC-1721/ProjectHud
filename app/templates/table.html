@@ -78,7 +78,7 @@
             <h2>Pull Requests ({{ pull_requests_count }})</h2>
             <div class="card-container">
                 {% for pr in pull_requests %}
-                <div class="card">
+                <div class="card {% if pr.is_draft %}draft-pr{% endif %}">
                     <!-- Number & Repo Name -->
                     <div class="number-box">
                         <div class="card-number">#{{ pr.number }}</div>

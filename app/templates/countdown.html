@@ -10,40 +10,10 @@
 <body>
     <div class="countdown-container">
         <h1>{{ event_name }}</h1>
-        <div id="countdown">Loading...</div>
+        <div id="countdown" data-target-time="{{ target_time }}"></div>
     </div>
 
-    <script>
-        const targetTime = {{ target_time }} * 1000; // Convert to milliseconds
-
-        function updateCountdown() {
-            const now = Date.now();
-            let timeLeft = targetTime - now;
-
-            if (timeLeft < 0) {
-                document.getElementById("countdown").innerText = "00:00:00:00.0000";
-                return;
-            }
-
-            let days = Math.floor(timeLeft / (1000 * 60 * 60 * 24));
-            let hours = Math.floor((timeLeft % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            let minutes = Math.floor((timeLeft % (1000 * 60 * 60)) / (1000 * 60));
-            let seconds = Math.floor((timeLeft % (1000 * 60)) / 1000);
-            let milliseconds = timeLeft % 1000;
-
-            // Ensure formatting with leading zeros
-            let countdownString = `${days.toString().padStart(3, '0')}:` +
-                `${hours.toString().padStart(2, '0')}:` +
-                `${minutes.toString().padStart(2, '0')}:` +
-                `${seconds.toString().padStart(2, '0')}.` +
-                `${milliseconds.toString().padStart(4, '0')}`;
-
-            document.getElementById("countdown").innerText = countdownString;
-        }
-
-        setInterval(updateCountdown, 10); // Update every 10ms
-        updateCountdown(); // Initial call
-    </script>
+    <script src="/static/scripts/countdown.js"></script>
 </body>
 
 </html>

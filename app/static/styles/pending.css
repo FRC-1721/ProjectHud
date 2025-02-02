@@ -12,17 +12,23 @@ body {
   justify-content: center; /* Center horizontally */
   height: 100vh; /* Full viewport height */
   text-align: center; /* Center text */
+  position: relative;
 }
 
 /* ========================= */
 /* Pending Screen Styling    */
 /* ========================= */
 
-.pending-container {
+.pending-reviews {
   display: flex;
-  flex-direction: column;
-  gap: 20px; /* Space between each person's row */
-  padding: 20px;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 20px 0; /* Space between each person's row */
+  justify-content: space-around;
+  position: absolute;
+  animation: 20s ease-in-out infinite scroll;
+  align-items: stretch;
+  padding: 20px 10px;
 }
 
 /* Each Person's Row */
@@ -34,20 +40,37 @@ body {
   padding-bottom: 10px;
 }
 
+/* asdf */
+.reviewer {
+  width: calc(50% - 20px);
+  display: flex;
+  flex-direction: column;
+}
+
 /* Name Styling */
 .reviewer-name {
-  font-size: 5.5em; /* Big font for names */
+  font-size: 5em; /* Big font for names */
   font-weight: bold;
   color: #fff;
   text-shadow: 10px 10px 2px #000;
-  margin-bottom: 10px; /* Add space below name */
+  padding: 20px 0 12px 0;
+  background: #444;
+  border-radius: 10px 10px 0 0;
+  border-bottom: 1px solid #666;
 }
 
 /* Assignments Container */
 .assignments {
   display: flex;
+  flex-direction: row;
   gap: 10px; /* Space between assignment boxes */
   flex-wrap: wrap; /* Allow wrapping if there are many assignments */
+  justify-content: space-evenly;
+  padding: 20px 0;
+  border-radius: 0 0 10px 10px;
+  background: #333;
+  flex: 1;
+  align-items: flex-start;
 }
 
 /* Assignment Box Styling */
@@ -58,9 +81,9 @@ body {
   justify-content: center;
   padding: 10px;
   border-radius: 8px;
-  min-width: 100px;
+  min-width: 40%;
   text-align: center;
-  font-size: 2.5em;
+  font-size: 2em;
   font-weight: bold;
   color: #fff;
 }
@@ -117,5 +140,17 @@ body {
   }
   to {
     background-color: #ff0000;
+  }
+}
+
+@keyframes scroll {
+  0% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 calc(-100% + 100vh);
+  }
+  100% {
+    translate: 0 0;
   }
 }

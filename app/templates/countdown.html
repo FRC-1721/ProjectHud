@@ -1,19 +1,17 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Countdown to {{ event_name }}</title>
-    <link rel="stylesheet" href="/static/styles/countdown.css">
-</head>
+    <link rel="stylesheet" href="/static/styles/countdown.css" />
+  </head>
 
-<body>
+  <body>
     <div class="countdown-container">
-        <h1>{{ event_name }}</h1>
-        <div id="countdown" data-target-time="{{ target_time }}"></div>
+      <h1 class="name">{{ event_name }}</h1>
+      <div id="countdown" data-target-time="{{ target_time }}"></div>
     </div>
 
     <script src="/static/scripts/countdown.js"></script>
-</body>
-
+  </body>
 </html>

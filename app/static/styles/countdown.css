@@ -3,16 +3,20 @@ body {
   background: rgb(40, 40, 40);
   color: white;
   text-align: center;
+  overflow-x: hidden;
 }
 
 .countdown-container {
   margin-top: 8vh;
 }
 
-h1 {
+.name {
   font-size: 12em;
+  font-weight: 800;
   color: rgb(163, 0, 46);
   text-shadow: 2px 2px 5px red;
+  animation: 10s linear infinite lmao;
+  white-space: nowrap;
 }
 
 #countdown {
@@ -32,4 +36,13 @@ h1 {
   height: auto; /* Auto height */
   box-sizing: border-box; /* Include padding in width calculation */
   overflow: hidden; /* Prevent any text overflow */
+}
+
+@keyframes lmao {
+  0% {
+    translate: 100% 0;
+  }
+  100% {
+    translate: -100% 0;
+  }
 }

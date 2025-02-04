@@ -29,6 +29,7 @@ body {
   animation: 20s ease-in-out infinite scroll;
   align-items: stretch;
   padding: 20px 10px;
+  width: 100%;
 }
 
 /* Each Person's Row */

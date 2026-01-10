@@ -2,7 +2,7 @@ import os
 from flask import current_app as app
 from flask import Blueprint, jsonify, render_template
 
-from app.services.github_service import GitHubService
+#from app.services.github_service import GitHubService
 
 screens_bp = Blueprint("screens", __name__)
 
@@ -11,11 +11,11 @@ screens_bp = Blueprint("screens", __name__)
 def get_screens():
     screens = ["/table"]
 
-    try:
-        if len(app.github_service.latest_data["pending_reviews"]) > 0:
-            screens.append("/pending")
-    except:
-        pass
+#    try:
+#        if len(app.github_service.latest_data["pending_reviews"]) > 0:
+#            screens.append("/pending")
+#    except:
+#        pass
 
     if os.getenv("COUNT_DOWN"):
         screens.append("/countdown")

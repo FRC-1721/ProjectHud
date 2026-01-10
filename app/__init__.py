@@ -35,6 +35,6 @@ def create_app():
 #        username_mapping=username_mapping,
 #    )
 
-    threading.Thread(target=app.github_service.fetch_data, daemon=True).start()
+#    threading.Thread(target=app.github_service.fetch_data, daemon=True).start()
 
     return app

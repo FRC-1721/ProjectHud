@@ -7,7 +7,7 @@ from app.routes.index import index_bp
 from app.routes.screens import screens_bp
 from app.filters.time_formatter import time_ago
 
-from app.services.github_service import GitHubService
+#from app.services.github_service import GitHubService
 
 
 app = Flask(__name__)
@@ -29,11 +29,11 @@ def create_app():
     }
 
     # Register service with app
-    app.github_service = GitHubService(
-        token=os.getenv("GITHUB_TOKEN"),
-        repos=os.getenv("GITHUB_REPOS", "").split(","),
-        username_mapping=username_mapping,
-    )
+#    app.github_service = GitHubService(
+#        token=os.getenv("GITHUB_TOKEN"),
+#        repos=os.getenv("GITHUB_REPOS", "").split(","),
+#        username_mapping=username_mapping,
+#    )
 
     threading.Thread(target=app.github_service.fetch_data, daemon=True).start()
 

@@ -18,6 +18,7 @@ EXPOSE 5000
 ARG GIT_COMMIT
 ENV GIT_COMMIT=$GIT_COMMIT
 ENV COUNT_DOWN="1768510800:Critical Design Review"
+ENV COUNT_DOWN2="1768669200: Final Design Review"
 
 # Healthcheck to ensure the service is up
 # HEALTHCHECK --interval=30s --timeout=10s --retries=3 \

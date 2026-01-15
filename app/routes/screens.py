@@ -19,6 +19,8 @@ def get_screens():
 
     if os.getenv("COUNT_DOWN"):
         screens.append("/countdown")
+    if os.getenv("COUNT_DOWN2"):
+        screens.append("/countdown2")
 
     return jsonify({"version": os.getenv("GIT_COMMIT", None), "screens": screens})
 
@@ -71,6 +73,20 @@ def test_screen():
 @screens_bp.route("/countdown")
 def countdown():
     countdown_env = os.getenv("COUNT_DOWN", "0:Unknown Event")
+    timestamp, event_name = countdown_env.split(":", 1)
+
+    try:
+        target_time = int(timestamp)
+    except ValueError:
+        target_time = 0  # Fallback if invalid
+
+    return render_template(
+        "countdown.html", target_time=target_time, event_name=event_name
+    )
+
+@screens_bp.route("/countdown2")
+def countdown2():
+    countdown_env = os.getenv("COUNT_DOWN2", "0:Unknown Event")
     timestamp, event_name = countdown_env.split(":", 1)
 
     try:

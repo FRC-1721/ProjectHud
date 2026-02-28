@@ -17,8 +17,8 @@ EXPOSE 5000
 # Bake the git commit into the env
 ARG GIT_COMMIT
 ENV GIT_COMMIT=$GIT_COMMIT
-ENV COUNT_DOWN="1771671600:Week 0 Competition - Nashua NH"
-ENV COUNT_DOWN2="1773435600:Week 2 Competition - Reading, MA"
+ENV COUNT_DOWN="1773435600:Week 2 Competition - Reading, MA"
+ENV COUNT_DOWN2="1774612800:Week 4 Competition - Durham, NH"
 
 # Healthcheck to ensure the service is up
 # HEALTHCHECK --interval=30s --timeout=10s --retries=3 \
